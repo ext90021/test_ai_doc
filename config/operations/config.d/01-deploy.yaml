@@ -1,0 +1,15 @@
+deploy:
+  # deployment window (ISO-8601)
+  # see https://en.wikipedia.org/wiki/ISO_8601
+  window:
+    from: 2025-02-11T00:00:00Z
+    to: 2025-02-12T00:00:00Z
+  # ignore the deploy window if true
+  always: false
+
+backend:
+  environment: public
+  resource_group_name: tfstate
+  storage_account_name: azfcpctoprodtfstate
+  container_name: tfstate
+  key: operations.tfstate

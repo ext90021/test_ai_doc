@@ -1,0 +1,18 @@
+#cloud-config
+apt_upgrade: true
+
+write_files:
+  - path: /tmp/cloud-init-test.txt
+    content: |
+      Cloud-init executed successfully!!
+    owner: root:root
+    permissions: '0644'
+
+runcmd:
+  - [ curl, -k, "https://nexus-avm-team.devops-services.ec1.aws.aztec.cloud.allianz/repository/raw-public/debian/QualysCloudAgent.deb", -o, "/tmp/QualysCloudAgent.deb" ]
+  - [ dpkg, --install, /tmp/QualysCloudAgent.deb ]
+  - [ /usr/local/qualys/cloud-agent/bin/qualys-cloud-agent.sh, "ActivationId=${activation_id}", "CustomerId=${customer_id}" ]
+  - [ curl, -k, "https://nexus-edr-hc-aws-5pkft.regional.devops-services.ec1.aws.aztec.cloud.allianz/repository/Crowdstrike/falconagent/falcon-linux-install.sh", -o, "/tmp/falcon-linux-install.sh" ]
+  - [ chmod, +x, /tmp/falcon-linux-install.sh ]
+  - [ ./falcon-linux-install.sh]
+  EOF
